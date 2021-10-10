@@ -14,7 +14,6 @@ function MainScreen() {
 
 function TimeScreen({data}) {
   const [date, setDate] = useState(data);
-  
   function refreshClock() {
     let time = new Date();
     Date.prototype.addHours = function(h) {
@@ -50,6 +49,10 @@ const Drawer = createDrawerNavigator();
 
 export default function App() {
   let date = new Date();
+  Date.prototype.addHours = function(h) {
+    this.setTime(this.getTime() + (h*60*60*1000));
+    return this;
+  }
   let data = date.addHours(3);
   return (
     <NavigationContainer>
