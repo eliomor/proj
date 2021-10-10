@@ -13,7 +13,7 @@ function MainScreen() {
 }
 
 function TimeScreen({data}) {
-  const [date, setDate] = useState(data.addHours(3));
+  const [date, setDate] = useState(data);
   
   function refreshClock() {
     let time = new Date();
@@ -38,10 +38,10 @@ function TimeScreen({data}) {
   );
 }
 
-function DateScreen({ date }) {
+function DateScreen({data}) {
    return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-       <Text>{date.toDateString()} </Text>
+       <Text>{data.toDateString()} </Text>
     </View>
   );
 }
@@ -50,6 +50,7 @@ const Drawer = createDrawerNavigator();
 
 export default function App() {
   let date = new Date();
+  let data = date.addHours(3);
   return (
     <NavigationContainer>
       <Drawer.Navigator initialRouteName="Main">
@@ -60,26 +61,26 @@ export default function App() {
         />
         <Drawer.Screen 
               name="Time" 
-              component={() => <TimeScreen data={date}/>}
+              component={() => <TimeScreen data={data}/>}
               options={({ navigation }) => ({
                 headerRight: () => (
 
                       
                   <TouchableWithoutFeedback 
                             onPress={() => navigation.navigate('Main')} >
-                            <Icon name="md-arrow-forward" size={16} color="#000" />
+                            <Icon name="md-arrow-forward" size={28} color="#000" />
                   </TouchableWithoutFeedback>
                       )
         })}
         />
         <Drawer.Screen 
               name="Date" 
-              component={() => <DateScreen date={date}/>}
+              component={() => <DateScreen data={data}/>}
               options={({ navigation }) => ({
                 headerRight: () => (
                   <TouchableWithoutFeedback 
                             onPress={() => navigation.navigate('Main')} >
-                            <Icon name="md-arrow-forward" size={16} color="#000" />
+                            <Icon name="md-arrow-forward" size={28} color="#000" />
                   </TouchableWithoutFeedback>
                       )
         })}
