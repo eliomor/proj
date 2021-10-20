@@ -1,59 +1,15 @@
 import React, {useState, useEffect} from 'react';
-import { View, Text, TouchableWithoutFeedback } from 'react-native';
+import {StyleSheet, Text, View,TouchableOpacity, Button, Image} from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
-import Icon from 'react-native-vector-icons/Ionicons';
+import ScoreScreen from './components/ScoreScreen';
+import MainScreen from './components/MainScreen';
 
-function MainScreen() {
-  return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-       <Text> Welcome </Text>
-    </View>
-  );
-}
-
-function TimeScreen({data}) {
-  const [date, setDate] = useState(data);
-  function refreshClock() {
-    let time = new Date();
-    Date.prototype.addHours = function(h) {
-      this.setTime(this.getTime() + (h*60*60*1000));
-      return this;
-    }
-    let newTime = time.addHours(3);
-
-    setDate(newTime);
-  }
-  useEffect(() => {
-    const timerId = setInterval(refreshClock, 1000);
-    return function cleanup() {
-      clearInterval(timerId);
-    };
-  }, []);
-  return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-       <Text> {date.toLocaleTimeString()} </Text>
-    </View>
-  );
-}
-
-function DateScreen({data}) {
-   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-       <Text>{data.toDateString()} </Text>
-    </View>
-  );
-}
 
 const Drawer = createDrawerNavigator();
 
 export default function App() {
-  let date = new Date();
-  Date.prototype.addHours = function(h) {
-    this.setTime(this.getTime() + (h*60*60*1000));
-    return this;
-  }
-  let data = date.addHours(3);
+ 
   return (
     <NavigationContainer>
       <Drawer.Navigator initialRouteName="Main">
@@ -63,30 +19,8 @@ export default function App() {
 
         />
         <Drawer.Screen 
-              name="Time" 
-              component={() => <TimeScreen data={data}/>}
-              options={({ navigation }) => ({
-                headerRight: () => (
-
-                      
-                  <TouchableWithoutFeedback 
-                            onPress={() => navigation.navigate('Main')} >
-                            <Icon name="md-arrow-forward" size={28} color="#000" />
-                  </TouchableWithoutFeedback>
-                      )
-        })}
-        />
-        <Drawer.Screen 
-              name="Date" 
-              component={() => <DateScreen data={data}/>}
-              options={({ navigation }) => ({
-                headerRight: () => (
-                  <TouchableWithoutFeedback 
-                            onPress={() => navigation.navigate('Main')} >
-                            <Icon name="md-arrow-forward" size={28} color="#000" />
-                  </TouchableWithoutFeedback>
-                      )
-        })}
+              name="Score" 
+              component={() => <ScoreScreen />}
         />
       </Drawer.Navigator>
     </NavigationContainer>
